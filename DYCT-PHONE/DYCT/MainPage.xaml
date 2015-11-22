@@ -1,0 +1,28 @@
+﻿<Page
+    x:Class="DYCT.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:DYCT"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid x:Name="ContentPanel" Grid.Row="1" Background="#ff7f8c8d">
+            <!--"#ff239c56" GREEN "#bbc0392b" RED-->
+            <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
+                <TextBlock x:Name="Title" Text="Did You Commit Today?" Foreground="#ffecf0f1" Margin="12,0"/>
+                <TextBlock x:Name="Subtitle" Text="" Margin="9,-8,9.333,0" Foreground="#ffecf0f1" FontSize="48" Height="54" />
+            </StackPanel>
+            <TextBlock x:Name="UsernameText" Text="" Margin="10,99,0,487" Foreground="#ffecf0f1" FontSize="20" Height="54" />
+        </Grid>
+        <TextBlock x:Name="InsertUsernameText" HorizontalAlignment="Left" Margin="10,209,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Insert username to be searched" VerticalAlignment="Top"/>
+        <TextBox x:Name="InsertUsernameBox" Margin="10,227,10,375" TextWrapping="Wrap" Text="" VerticalAlignment="Stretch" Grid.Row="1"/>
+        <Button x:Name="FindOutButton" Content="Find out!" Click="Button_Click" HorizontalAlignment="Left" Margin="145,273,0,0" Grid.Row="1" VerticalAlignment="Top" Width="110"/>
+    </Grid>
+</Page>
