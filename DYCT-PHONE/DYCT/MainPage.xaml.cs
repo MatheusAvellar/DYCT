@@ -1,59 +1,63 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=391641
-
+using System.Net;
+using System.IO;
+using System.Windows;
+using System.Windows.Media;
+using System.Windows.Controls;
+using System.Windows.Navigation;
+using Microsoft.Phone.Controls;
+using Microsoft.Phone.Shell;
+using DYCT.Resources;
+using System.Threading.Tasks;
+ 
 namespace DYCT
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
-    public sealed partial class MainPage : Page
+    public partial class MainPage : PhoneApplicationPage
     {
-        public MainPage()
-        {
-            this.InitializeComponent();
-
-            this.NavigationCacheMode = NavigationCacheMode.Required;
+        // Constructor
+        public MainPage() {
+            InitializeComponent();
+        }
+ 
+        private void Button_Click(object sender, RoutedEventArgs e) {
+            if (InsertUsernameBox.Text != "") {
+                this.InsertUsernameBox.Visibility = Visibility.Collapsed;
+                this.InsertUsernameText.Visibility = Visibility.Collapsed;
+                this.FindOutButton.Visibility = Visibility.Collapsed;
+                this.ErrorText.Visibility = Visibility.Collapsed;
+                this.UsernameText.Text = CheckCommit(InsertUsernameBox.Text).Result.ToString();
+            } else {
+                this.ErrorText.Text = "Please insert a username!";
+                this.ErrorText.Visibility = Visibility.Visible;
+            }
         }
 
-        /// <summary>
-        /// Invoked when this page is about to be displayed in a Frame.
-        /// </summary>
-        /// <param name="e">Event data that describes how this page was reached.
-        /// This parameter is typically used to configure the page.</param>
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        public async Task<string> CheckCommit(string str)
         {
-            // TODO: Prepare page for display here.
-
-            // TODO: If your application contains multiple pages, ensure that you are
-            // handling the hardware Back button by registering for the
-            // Windows.Phone.UI.Input.HardwareButtons.BackPressed event.
-            // If you are using the NavigationHelper provided by some templates,
-            // this event is handled for you.
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            this.InsertUsernameBox.Visibility = Visibility.Collapsed;
-            this.InsertUsernameText.Visibility = Visibility.Collapsed;
-            this.FindOutButton.Visibility = Visibility.Collapsed;
-            this.Subtitle.Text = "Yes!";
-            this.UsernameText.Text = "MatheusAvellar did commit today!";
-            this.ContentPanel.Background = new SolidColorBrush(Color.FromArgb(0xff, 0x23, 0x9c, 0x56));
+            var webClient = new WebClient();
+            Console.WriteLine("1");
+            webClient.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
+            var result = webClient.DownloadStringTaskAsync(new Uri("http://matheus.avellar.c9.io/dyct?n=" + str);
+            Console.WriteLine("2");
+            if (result[0] != '!') {
+                this.TheSubtitle.Text = "Yes!";
+                this.UsernameText.Text = str + " did commit today!";
+                this.ContentPanel.Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(0xff, 0x23, 0x9c, 0x56));
+            } else {
+                string err = result[1] == '0' ? "Invalid username." :
+                             result[1] == '1' ? "Error loading page." :
+                             result[1] == '2' ? "No user with given username." :
+                             result[1] == '3' ? "Name belongs to organization, not user." : "Potatoes";
+                this.TheSubtitle.Text = "Error";
+                this.UsernameText.Text = "Something went wrong!";
+                this.ContentPanel.Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(0xff, 0x23, 0x9c, 0x56));
+                this.InsertUsernameBox.Visibility = Visibility.Visible;
+                this.InsertUsernameText.Visibility = Visibility.Visible;
+                this.FindOutButton.Visibility = Visibility.Visible;
+            }
+            return result;
         }
     }
 }
