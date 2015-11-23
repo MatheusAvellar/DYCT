@@ -5,4 +5,5 @@ This Windows Phone application will get a username input as a parameter for chec
 
 
 Early access alpha pre-dev DEMO v0.0.1 screenshot
+
 ![Screenshot](http://i.imgur.com/bvTGNio.jpg)
