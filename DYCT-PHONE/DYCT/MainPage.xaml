@@ -22,14 +22,18 @@
             <!--"#ff239c56" GREEN "#bbc0392b" RED-->
             <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
                 <TextBlock x:Name="TheTitle" Text="Did You Commit Today?" Foreground="#ffecf0f1" Style="{StaticResource PhoneTextNormalStyle}" Margin="12,0" />
-                <TextBlock x:Name="TheSubtitle" Text="" Margin="9,-8,9.333,0" Foreground="#ffecf0f1" FontSize="48" Height="54" Style="{StaticResource PhoneTextTitle1Style}" />
+                <TextBlock x:Name="TheSubtitle" Text="" Margin="11,-8,0,0" Foreground="#ffecf0f1" FontSize="50" Height="54" Style="{StaticResource PhoneTextTitle1Style}" />
             </StackPanel>
             <TextBlock x:Name="UsernameText" Text="" Margin="45,148,45,566" Foreground="#ffecf0f1" FontSize="36" Height="54" VerticalAlignment="Center" />
             <TextBlock x:Name="CommitInfoText" Text="" Margin="45,199,45,515" Foreground="#ffecf0f1" FontSize="18" Height="54" VerticalAlignment="Center" />
-            <TextBlock x:Name="ErrorText" Text="Please insert a username!" Foreground="#FFC0392B" HorizontalAlignment="Left" Margin="24,377,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Visibility="Collapsed"/>
+            <TextBlock x:Name="ErrorText" Text="Please insert a username" Foreground="#ffecf0f1" HorizontalAlignment="Left" Margin="24,377,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Visibility="Collapsed"/>
         </Grid>
         <TextBlock x:Name="InsertUsernameText" HorizontalAlignment="Left" Margin="22,293,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Insert username to be searched" VerticalAlignment="Top"/>
         <TextBox x:Name="InsertUsernameBox" Margin="10,320,126,0" Text="" VerticalAlignment="Top" Grid.Row="1" Height="68" VerticalScrollBarVisibility="Disabled" MaxLength="50"/>
         <Button x:Name="FindOutButton" Content="Check" Click="Button_Click" Margin="354,318,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <Rectangle Fill="#ffecf0f1" HorizontalAlignment="Left" Height="348" Margin="0,420,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Width="480"/>
+        <Grid x:Name="InfoPanel" Grid.Row="1" Background="#ff7f8c8d" Margin="0,423,0,0">
+            <TextBlock x:Name="CommitLog" Text="" Foreground="#ffecf0f1" Margin="10" />
+        </Grid>
     </Grid>
 </phone:PhoneApplicationPage>
