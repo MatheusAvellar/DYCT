@@ -27,37 +27,56 @@ namespace DYCT
                 this.InsertUsernameText.Visibility = Visibility.Collapsed;
                 this.FindOutButton.Visibility = Visibility.Collapsed;
                 this.ErrorText.Visibility = Visibility.Collapsed;
-                this.UsernameText.Text = CheckCommit(InsertUsernameBox.Text).Result.ToString();
+
+                WebClient wc = new WebClient();
+                wc.DownloadStringCompleted += new DownloadStringCompletedEventHandler(DownloadStringCallback);
+                wc.DownloadStringAsync(new Uri("http://matheus.avellar.c9.io/dyct?n=" + this.InsertUsernameBox.Text));
             } else {
                 this.ErrorText.Text = "Please insert a username!";
                 this.ErrorText.Visibility = Visibility.Visible;
             }
         }
 
-        public async Task<string> CheckCommit(string str)
+        private void DownloadStringCallback(object sender, DownloadStringCompletedEventArgs e)
         {
-            var webClient = new WebClient();
-            Console.WriteLine("1");
-            webClient.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
-            var result = webClient.DownloadStringTaskAsync(new Uri("http://matheus.avellar.c9.io/dyct?n=" + str);
-            Console.WriteLine("2");
+            string result = e.Result;
+            string name = this.InsertUsernameBox.Text;
+
+            this.UsernameText.Visibility = Visibility.Visible;
+
             if (result[0] != '!') {
+                string[] strArr = result.Split('|');
+                // [0] - Best streak amount
+                // [1] - Best streak days
+                // [2] - Current streak
+                // [3] - Current streak days
+
+                // Fix PHP! Check if user did commit!
+
+                this.CommitInfoText.Text = strArr[3];
                 this.TheSubtitle.Text = "Yes!";
-                this.UsernameText.Text = str + " did commit today!";
-                this.ContentPanel.Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(0xff, 0x23, 0x9c, 0x56));
+                this.UsernameText.Text = name;
+                this.ContentPanel.Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(0xff, 0x23, 0x9c, 0x56)); // GREEN
+                this.InsertUsernameBox.Visibility = Visibility.Visible;
+                this.InsertUsernameText.Visibility = Visibility.Visible;
+                this.FindOutButton.Visibility = Visibility.Visible;
             } else {
                 string err = result[1] == '0' ? "Invalid username." :
                              result[1] == '1' ? "Error loading page." :
                              result[1] == '2' ? "No user with given username." :
-                             result[1] == '3' ? "Name belongs to organization, not user." : "Potatoes";
+                             result[1] == '3' ? "Name belongs to organization, not user." : "Something went wrong!";
                 this.TheSubtitle.Text = "Error";
-                this.UsernameText.Text = "Something went wrong!";
-                this.ContentPanel.Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(0xff, 0x23, 0x9c, 0x56));
+                this.CommitInfoText.Text = err;
+                this.ContentPanel.Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(0xff, 0xc0, 0x39, 0x2b)); // RED
                 this.InsertUsernameBox.Visibility = Visibility.Visible;
                 this.InsertUsernameText.Visibility = Visibility.Visible;
                 this.FindOutButton.Visibility = Visibility.Visible;
             }
-            return result;
         }
+
+        /*
+         * 0xff, 0x23, 0x9c, 0x56 GREEN
+         * 0xff, 0xc0, 0x39, 0x2b RED
+         */
     }
 }
